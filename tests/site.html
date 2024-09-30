@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dados do ESP32</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+.container {
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+h1 {
+    color: #333;
+}
+#data {
+    font-size: 1.2em;
+    color: #333;
+}
+#routers {
+    list-style-type: none;
+    padding: 0;
+}
+#routers li {
+    font-size: 1.1em;
+    color: #007BFF;
+}
+    </style>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dados do ESP32</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Dados do ESP32</h1>
+        <div id="data">
+            <p>ID: <span id="id">Aguardando dados...</span></p>
+            <ul id="routers"></ul>
+        </div>
+    </div>
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch('/data');
+                const result = await response.json();
+                document.getElementById('id').innerText = result.id || 'Nenhum ID recebido';
+                
+                const routersList = document.getElementById('routers');
+                routersList.innerHTML = '';
+                
+                if (result.routers && result.routers.length > 0) {
+                    result.routers.forEach(router => {
+                        const li = document.createElement('li');
+                        li.innerText = ${router.ssid}: ${router.distance.toFixed(2)} metros;
+                        routersList.appendChild(li);
+                    });
+                } else {
+                    routersList.innerHTML = '<li>Nenhum roteador encontrado</li>';
+                }
+            } catch (error) {
+                console.error('Erro ao buscar dados:', error);
+            }
+        }
+
+        setInterval(fetchData, 1000); // Atualiza os dados a cada 1 segundo
+        fetchData(); // Busca os dados imediatamente ao carregar
+    </script>
+</body>
+</html>
