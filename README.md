@@ -1,3 +1,5 @@
+# JohnDeere_Public
+Repositorio publico do projeto John Deere
 # Projeto JohnDeere Uber
 
 ## Introdução
@@ -29,7 +31,7 @@ A arquitetura do sistema de rastreamento foi desenvolvida utilizando o ESP32 par
 ### Descrição de Execução dos Componentes
 
 - **ESP32**: O ESP32 rodará diretamente nos carrinhos, coletando dados de intensidade de sinal e enviando-os via Wi-Fi para os roteadores mais próximos. Esses dados serão enviados em intervalos regulares para garantir precisão.
-  
+
 - **Roteadores**: Posicionados nas extremidades do local de operação, os roteadores recebem as informações dos ESP32 e comunicam a distância estimada entre o carrinho e o roteador ao servidor central, utilizando uma rede local.
 
 - **Servidor Central**: Rodando localmente ou em um servidor de nuvem (dependendo da escala do sistema), o servidor receberá os dados dos roteadores, realizará os cálculos de triangulação e armazenará a posição dos carrinhos em um banco de dados. Este servidor também fornecerá uma API para o aplicativo web, permitindo o acesso aos dados em tempo real.
@@ -39,7 +41,7 @@ A arquitetura do sistema de rastreamento foi desenvolvida utilizando o ESP32 par
 ### Funcionamento e Resultados Esperados
 
 - **Funcionamento**: O sistema IoT baseado no ESP32 comunicará constantemente a localização dos carrinhos para os roteadores. Estes, por sua vez, retransmitirão as informações para o servidor, que processará e calculará a posição exata do carrinho utilizando algoritmos de triangulação. Os operadores poderão visualizar essa posição em tempo real por meio da interface web.
-  
+
 - **Resultados Esperados**: Espera-se uma melhoria significativa na eficiência da gestão dos carrinhos, reduzindo o tempo de busca e aumentando a produtividade operacional. O sistema fornecerá dados precisos e em tempo real, ajudando na tomada de decisões rápidas e informadas.
 
 ### Tecnologias Envolvidas
@@ -67,3 +69,14 @@ O sistema de rastreamento desenvolvido obteve os seguintes resultados:
 5. **Escalabilidade**: A arquitetura modular e o uso de tecnologias como ESP32 e servidores locais ou na nuvem permitem a escalabilidade do sistema para atender a diferentes tamanhos de áreas e volumes de carrinhos.
 
 6. **Integração de Hardware e Software**: A integração bem-sucedida entre o hardware IoT (ESP32), os roteadores, o servidor central e o aplicativo web garantiu um fluxo contínuo de dados e processamento eficiente, resultando em uma solução robusta e confiável.
+
+
+
+## Testes de desempenho
+1 Teste de Precisão de Localização - Foi criada dentro da pasta TESTS o serviço testeLocalizacaoService.test.js feito pra testar a precisão dos dados recebidos, teste foi feito durante os testes do esp para que pudéssemos diminuir ou aumentar o delay e a "tara" da distancia.
+
+Teste de Estabilidade de Sinal - já existe e está integrado ao código do server.js onde caso exista uma influencia negativa no sinal, faça com que gere erros como 500 - internal server
+Teste de Tempo de Resposta - existe um delay no código do Arduino para que a partir desse tempo determinado, envie uma mensagem no terminal de que a mensagem não foi enviada, ou de que foi enviada e recebida com sucesso.
+Teste de Consumo de Energia - Caso o dispositivo do ESP32 tenha problema de conexão o LED amarelo pisca, alertando a baixa potencia de energia.
+Teste de Capacidade Multidispositivo Simultâneos - No código do esp já existe uma filtragem de dispositivos, para que não seja armazenado os dados de mais de 3 roteadores ao mesmo tempo.a
+
